@@ -1,0 +1,35 @@
+{
+  "name": "typescripting",
+  "version": "1.0.0",
+  "description": "Learning the basics of TypeScript.",
+  "main": "index.js",
+  "repository": "https://github.com/sydrawat/typescripting.git",
+  "author": "Siddharth Rawat <siddharth.rawat94@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "commit": "git cz"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "commitizen": "^4.1.2",
+    "cz-conventional-changelog": "^3.2.0",
+    "cz-emoji": "^1.2.1",
+    "eslint": "6.8.0",
+    "eslint-config-airbnb": "18.1.0",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "2.5.0",
+    "prettier": "^2.0.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-emoji"
+    }
+  }
+}
