@@ -179,3 +179,136 @@ When changing multiple values like above, we need to match the object that was d
 Even adding a new property here will result in an error.
 
 ## Explicit Types
+
+Give variables an explicit type therefore allowing only a specific type of value to be assigned to that variable.
+
+```ts
+let firstName: string
+let userAge: number
+let isLoggedIn: boolean
+
+firstName = 'luigi'
+userAge = 25
+isLoggedIn = false
+```
+
+### Explicit Array Type
+
+We can declare the type of the elements an array will contain.
+
+```ts
+let users: string[]
+users = ['mario', 'luigi']
+let tech: string[] = [] // initialize to an empty array
+tech.push('js')
+tech.push('ts')
+```
+
+Initializing to an empty array allows us to use the array default methods like `push()` and `pop()`.
+
+> NOTE: It is always useful to initialize an empty array!
+
+### Union types
+
+This is a way of saying a variable can be one of two or one of three types and so on.
+
+```ts
+let mixed: (string|number|boolean)[] = []
+mixed.push('hello')
+mixed.push(25)
+mixed.push(false)
+```
+
+> NOTE: We do not need to give the parenthesis `()` to the type of the variable if it't not an array. The parenthesis are only required for explicitly defining the type of the array.
+
+```ts
+let uid: string|number
+uid = '123'
+uid = 123
+```
+
+### Object explicit types
+
+```ts
+let ninjaOne: object
+ninjaOne = {
+  name: 'yoshi'
+  age: 20
+}
+```
+
+> NOTE: This will work with arrays as well, since arrays are a type of object in javascript.
+
+```ts
+let ninjaTwo: object
+// ninjaTwo = '' will give an error
+ninjaTwo = [] // this is not an error
+```
+
+To be even more specific when declaring an object, we can do the following:
+
+```ts
+let ninjaThree: {
+  name: string,
+  age: number,
+  loggedIn: boolean
+}
+
+ninjaThree = {
+  name: 'Yoda',
+  age: 30,
+  loggedIn: false
+}
+```
+
+So when declaring the values for the object, we need to provide all the properties for that object, otherwise we will get an error.
+
+## Dynamic (any) types
+
+A variable can be of any type at declaration and can change it's type at any time within the code to a different type.
+
+```ts
+let age: any = 25
+console.log(age)
+age = true
+console.log(age)
+age = 'hello'
+console.log(age)
+age = {
+  name: 'Luigi'
+}
+console.log(age)
+```
+
+This can be extended to arrays and objects as well. Here's how we can do it:
+
+**Arrays:**
+
+```ts
+let mixed: any[] = []
+mixed.push(25)
+mixed.push(true)
+mixed.push('mario')
+console.log(mixed)
+```
+
+**Objects:**
+
+```ts
+let player: {
+  name: any,
+  age: any
+}
+
+player = {
+  name: 'yoshi',
+  age: 25
+}
+console.log(player)
+
+player = {
+  name: 25,
+  age: 'yoshi'
+}
+console.log(player)
+```
