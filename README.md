@@ -312,3 +312,63 @@ player = {
 }
 console.log(player)
 ```
+
+## Better workflow and tsconfig
+
+Things that we want to delpoy to the web are stored in the `public/` folder. The source code resides in the `src/` folder.
+
+This is the basic folder structure of any project. So here, we move our `index.html`, `styles.css` and `sandbox.js` (compiled file from typescript) into the `public/` folder, and the source code `sandbox.ts` into the `src/` folder.
+
+The problem that we will face here is when we compile our typescript file,  the output file is stored in `src/` instead of `public/`.
+
+```shell
+tsc src/sandbox.ts
+```
+
+The above command will result in creation of a `sandbox.js` file inside the `src/` folder, which we do not want. This should be sent to the `public/` folder.
+
+To overcome this issue, we use the `tsconfig.json` file.
+
+```shell
+tsc --init
+```
+
+The above command will create a `tsconfig.json` file for us where we can declare our config for compiling our typescript code.
+
+The `tsconfig.json` that is created will have default config for your typescript compiler, but here we change two things :
+
+- `rootDir` : The `src/` folder where out `.ts` files reside.
+- `outDir` : The `public/` folder where the compiled `.js` files reside.
+
+```json
+{
+  "compilerOptions": {
+    "target": "es5",
+    //... other configs
+    "outDir": "./public",
+    "rootDir": "./src",
+    // ... more configs
+  }
+}
+```
+
+With these configs, we can just use the following command to compile our `.ts` files:
+
+```shell
+tsc -w
+```
+
+But, there is another problem that we will face here. If any of our `.ts` files are outside the `src/` folder, those will be compiled too by the above command! This behavior is to be prevented!
+
+Let's change the following propeerty in `tsconfig.json`:
+
+```json
+{
+  "compilerOptions" :{
+    // ... compiler options
+  },
+  "include": ["src"]
+}
+```
+
+This property will only compile the `.ts` files that are inside the `src/` folder.

@@ -1,3 +1,4 @@
+"use strict";
 var character = 'mario';
 console.log(character);
 var newChar = 'luigi';
