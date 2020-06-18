@@ -470,3 +470,90 @@ const add = (a: number, b: number, c: number|string = 10): void => {
 
 add(5,10) // 15, 10
 ```
+
+## Type Aliases
+
+When we're working with functions and we take in parameters with type specification, these can get long and tedious to read sometimes. Have a look at the example below:
+
+```ts
+const logDetails = (uid: string | number, item: string): void => {
+  console.log(`${item} has a uid of ${uid}`)
+}
+
+const greetA = (user: {name: string, uid: string | number}): void => {
+  console.log(`${user.name} says hello!`)
+}
+
+const greetB = (user: {name: string, uid: string | number}): void => {
+  console.log(`${user.name} says hello too!`)
+}
+```
+
+We might use the same kind of type specifications, which leads to repeated code. We can avoid this by using type aliases:
+
+```ts
+type StringOrNum = string | number
+type userInfoType = { name: string, uid: StringOrNum }
+const logDetails = (uid: StringOrNum, item: string): void => {
+  console.log(`${item} has a uid of ${uid}`)
+}
+
+const greetA = (user: userInfoType): void => {
+  console.log(`${user.name} says hello!`)
+}
+
+const greetB = (user: userInfoType): void => {
+  console.log(`${user.name} says hello too!`)
+}
+```
+
+We can see a significant amount of code reduction, that we were previously writing redundantly. This is a very useful feature of typescript!
+
+## Function Signatures
+
+We have seen how to assign a function to a variable:
+
+```ts
+let greet: Function
+```
+
+Let's go one step further to define a functon signature, which will let us know what kind of function a variable can hold. A function signature defines the basic structure of the function, which here basically is what type of data it receives and what type of data it returns.
+
+```ts
+let greet: () => void
+```
+
+The above function signature specifies that the function `greet` takes no parameters and has return type of `void`.
+
+Below are some self-explanatory examples which specify function signatures:
+
+```ts
+
+//example 1
+let greet1: (a: string, b: string) => void
+
+greet1 = (name: string, greeting: string) => {
+  console.log(`${name} says ${greeting}`)
+}
+//example 2
+let calc: (a: number, b: number, c:string) => number
+
+calc = (num1: number, num2: number, action: string) => {
+  if(action === 'add') {
+    return num1+num2
+  } else {
+    return -1;
+  }
+}
+//example 3
+let logDet: (obj: {name: string, age: number}) => void
+
+// using type aliases
+type person = {name: string, age: number}
+
+logDet = (player: person) =>{
+  console.log(`${player.name} is ${player.age} years old`)
+}
+```
+
+## The DOM and Typecasting

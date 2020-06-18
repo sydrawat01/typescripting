@@ -146,3 +146,46 @@ const minus = (a: number, b: number): number => {
 
 let result = minus(10,7)
 //result = 'hello'; will be an error, since result has type of number!
+
+// Type Aliases
+
+type StringOrNum = string | number
+type userInfoType = { name: string, uid: StringOrNum }
+const logDetails = (uid: StringOrNum, item: string): void => {
+  console.log(`${item} has a uid of ${uid}`)
+}
+
+const greetA = (user: userInfoType): void => {
+  console.log(`${user.name} says hello!`)
+}
+
+const greetB = (user: userInfoType): void => {
+  console.log(`${user.name} says hello too!`)
+}
+
+// Function Signatures
+
+//example 1
+let greet1: (a: string, b: string) => void
+
+greet1 = (name: string, greeting: string) => {
+  console.log(`${name} says ${greeting}`)
+}
+//example 2
+let calc: (a: number, b: number, c:string) => number
+
+calc = (num1: number, num2: number, action: string) => {
+  if(action === 'add') {
+    return num1+num2
+  } else {
+    return -1;
+  }
+}
+//example 3
+let logDet: (obj: {name: string, age: number}) => void
+
+type person = {name: string, age: number}
+
+logDet = (player: person) =>{
+  console.log(`${player.name} is ${player.age} years old`)
+}
