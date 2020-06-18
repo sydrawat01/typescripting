@@ -360,7 +360,7 @@ tsc -w
 
 But, there is another problem that we will face here. If any of our `.ts` files are outside the `src/` folder, those will be compiled too by the above command! This behavior is to be prevented!
 
-Let's change the following propeerty in `tsconfig.json`:
+Let's change the following property in `tsconfig.json`:
 
 ```json
 {
@@ -372,3 +372,101 @@ Let's change the following propeerty in `tsconfig.json`:
 ```
 
 This property will only compile the `.ts` files that are inside the `src/` folder.
+
+## Function Basics
+
+Once a function variable is declared, we cannot change it to any other type!
+
+```ts
+let greet = () => {
+  console.log('Hello World!')
+}
+
+// greet = 'Hello World'; will result in an error
+```
+
+We can declare a variable as a function with explicit type declaration, like so:
+
+```ts
+let greet: Function
+
+sayHello = () => {
+  console.log('Hello Again!')
+}
+```
+
+> NOTE: The type of `Function` is with a _capital F_!
+
+### Default and optional parameters
+
+Consider the following example to better illustrate this behavior:
+
+```ts
+const add = (a: number, b: number, c?: number|string) => {
+  console.log(a+b)
+  console.log(c)
+}
+
+add(5,10) // 15, undefined
+add(2,3,'20') // 5, '20'
+```
+
+Notice the `?` that we have placed in front of variable `c`? That represents an optional parameter which can either be a `string` or a `number`.
+
+If we `log` the value of an optional parameter that is not defined, it will result in `undefined`.
+
+For default values in parameters, we add the value in front of the optional parameter:
+
+```ts
+const add = (a: number, b: number, c: number|string = 10) => {
+  console.log(a+b)
+  console.log(c)
+}
+
+add(5,10) // 15, 10
+```
+
+#### Returning values from within functions
+
+When a function returns a value from a function, the variable in which we store this value will have the type of the value that is returned from the function!
+
+This is inferred by typescript automatically. Have a look at the example below:
+
+```ts
+const minus = (a: number, b: number) => {
+  return a+b
+}
+
+let result = minus(19,7);
+```
+
+In the above example, the variable `result` will have the type of `number`, since the function `minus()` returns the value `a+b`, which is a `number`.
+
+Later on, if we replace the value of `return` with any type other than `number`, we will encounter an error.
+
+#### Explicity declare return type of functions
+
+This is optional because typescript automatically infers this from the `return` statement inside the function, but if we want to explicity declare what the function return type is, we can do it in the following way:
+
+```ts
+const minus = (a: number, b: number): number => {
+  return a+b
+}
+
+let result = minus(10,7);
+```
+
+The explicit type is declared after the parameter parenthesis `()`.
+
+**What if we do not return from a variable and there is no explicit declaration of function return type?**
+
+In this case, typescript assigns the `void` type to the function. We can also explicity add this to a function like we did above.
+
+```ts
+const add = (a: number, b: number, c: number|string = 10): void => {
+  console.log(a+b)
+  console.log(c)
+}
+
+add(5,10) // 15, 10
+```

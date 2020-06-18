@@ -115,3 +115,34 @@ player = {
   age: 'yoshi'
 }
 console.log(player)
+
+// Functions Basics
+
+let greet = () => {
+  console.log('Hello World!')
+}
+
+// greet = 'Hello World!'; will result in an error
+
+// explicit type function declaration
+
+let sayHello: Function
+
+sayHello = () => {
+  console.log('Hello Again!')
+}
+
+const add = (a: number, b: number, c: number|string = 10): void => {
+// const add = (a: number, b: number, c?: number|string): void => {
+  console.log(a+b)
+  console.log(c) // undefined
+}
+
+add(5,10)
+
+const minus = (a: number, b: number): number => {
+  return a+b
+}
+
+let result = minus(10,7)
+//result = 'hello'; will be an error, since result has type of number!
