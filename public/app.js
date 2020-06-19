@@ -1,42 +1,33 @@
-"use strict";
-// classes
-var Invoice = /** @class */ (function () {
-    // readonly client: string
-    // private details: string
-    // public amount: number
-    // class constructor to initialize class properties
-    // constructor(c: string, d: string, a: number) {
-    //   this.client = c
-    //   this.details = d
-    //   this.amount = a
-    // }
-    function Invoice(client, details, amount) {
-        this.client = client;
-        this.details = details;
-        this.amount = amount;
+import { Invoice } from './classes/Invoice.js';
+const me = {
+    name: 'sid',
+    age: 25,
+    speak(text) {
+        console.log(text);
+    },
+    spend(amount) {
+        return amount;
     }
-    Invoice.prototype.format = function () {
-        return this.client + " owes $" + this.amount + " for " + this.details;
-    };
-    return Invoice;
-}());
+};
+const greetPerson = (person) => console.log('hello', person.name);
+greetPerson(me);
 // instantiate the class OR create objects of the class
-var invoice1 = new Invoice('mario', 'work on mario website', 250);
-var invoice2 = new Invoice('luigi', 'work on luigi website', 300);
+const invoice1 = new Invoice('mario', 'work on mario website', 250);
+const invoice2 = new Invoice('luigi', 'work on luigi website', 300);
 // invoice1.client = 'sid' cannot be accessed as it is readonly now
-var invoices = [];
+let invoices = [];
 invoices.push(invoice1);
 invoices.push(invoice2);
 // console.log(invoices);
-invoices.forEach(function (inv) { return console.log(inv.client, inv.amount, inv.format()); });
+invoices.forEach(inv => console.log(inv.client, inv.amount, inv.format()));
 // form
-var form = document.querySelector('.new-item-form');
+const form = document.querySelector('.new-item-form');
 // inputs
-var type = document.querySelector('#type');
-var tofrom = document.querySelector('#tofrom');
-var details = document.querySelector('#details');
-var amount = document.querySelector('#amount');
-form.addEventListener('submit', function (e) {
+const type = document.querySelector('#type');
+const tofrom = document.querySelector('#tofrom');
+const details = document.querySelector('#details');
+const amount = document.querySelector('#amount');
+form.addEventListener('submit', (e) => {
     e.preventDefault();
     console.log(type.value);
     console.log(tofrom.value);

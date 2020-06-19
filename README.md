@@ -753,3 +753,93 @@ class Invoice {
   ){}
 }
 ```
+
+## Modules
+
+We need to break our code into different `modular files` for different components/parts of our web app. This is particularly useful when we are working on larger projects. We can have seperate files for say DOM interactions, another one for database interactions, yet another one for authentication, etc. This makes our project and code more structured, easier to comprehend and read.
+
+The best way to do this in typescript is by using the `ES6 module` system, where we can `import` and `export` things from different files when we need to. Modern browsers support `ES6 modules` in vanilla JS, so we can use it in typescript as well.
+
+We can overcome the "modern-browser-only" problem using `webpack` by bunding our code into one file, but that's for later.
+
+Let's start using `modules` in our typescript code by changing the following property in `tsconfig.json` file:
+
+```json
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es2015
+  }
+}
+```
+
+One last thing we need to do in our `index.html` is to point to our script saying that the type of the script is a `module`, like so:
+
+```html
+<script type="module" src='app.js'></script>
+```
+
+Now, let's move the `Invoice` class into it's own seperate directory and a file called `Invoice.ts` inside the `src/` directory.
+
+- Add the `export` keyword to the `Invoice` class, like so:
+
+```ts
+export class Invoice {
+  // ...Invoice class code
+}
+```
+
+- Now, we import this class in our `app.ts` file, but we reference the compiled `Invoice.js` file and not the `Invoice.ts` file here:
+
+```ts
+import { Invoice } from './classes/Invoice.js'
+```
+
+AAAND we're done! But there are two major drawbacks here:
+
+- The `ES6 module` system is only supported by modern browsers.
+- Doesn't bundle our code into a single file. We get seperate `app.js` and `classes/Invoice.js` files in our `public/` folder. Due to this, there are multiple requests which we can check in the dev-tools network tab. But this can be overcome using something called [webpack](https://webpack.js.org/).
+
+## Interfaces
+
+Interfaces allow us to enforce a certain structure to our classes or objects.
+
+### Interfaces with Objects
+
+_Example:_
+
+```ts
+// interfaces
+interface IsPerson {
+  name: string
+  age: number
+  speak(a: string): void
+  spend(n: number): number
+}
+
+// const me: IsPerson = {} // will be an error since it does not match the structure of type IsPerson
+let someone: IsPerson // can define it later, this is not an error
+const me: IsPerson = {
+  name: 'sid',
+  age: 25,
+  speak(text: string): void {
+    console.log(text)
+
+  },
+  spend(amount: number): number {
+    return amount
+  }
+}
+```
+
+Here, even if we try to add a new property to the `me` object with `IsPerson` type, it will throw an error, because it does not follow the structure defined by the interface `IsPerson`.
+
+**Using the object defined by the interface in a function:**
+
+```ts
+const greetPerson = (person: IsPerson): void => console.log('hello', person.name)
+// greetPerson({name: 'sid'}) // error, since it does not match `IsPerson` structure
+greetPerson(me) // hello sid
+```
+
+### Interfaces with Classes
