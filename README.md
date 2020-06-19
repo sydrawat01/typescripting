@@ -843,3 +843,26 @@ greetPerson(me) // hello sid
 ```
 
 ### Interfaces with Classes
+
+Let's create a `interfaces/` directory inside the `src/` folder. Inside this, we'll add a `HasFormatter.ts` file which will be an interface with a function called `format()` with return type as `string`:
+
+```ts
+export interface HasFormatter {
+  format(): string
+}
+```
+
+Next, we need to `import` this interface **(from the `.js` file)** in our `Invoice` class, so that it is `implemented` in it:
+
+```ts
+import { HasFormatter } from '../interfaces/hasFormatter.js'
+
+export class Invoice implements HasFormatter {
+  // ... Invoice class code
+  format() {
+    return `${this.client} owes $${this.amount} for ${this.details}`
+  }
+}
+```
+
+Let's create another class that implements this `HasFormatter` interface.

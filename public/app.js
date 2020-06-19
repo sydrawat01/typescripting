@@ -1,25 +1,41 @@
 import { Invoice } from './classes/Invoice.js';
-const me = {
-    name: 'sid',
-    age: 25,
-    speak(text) {
-        console.log(text);
-    },
-    spend(amount) {
-        return amount;
-    }
-};
-const greetPerson = (person) => console.log('hello', person.name);
-greetPerson(me);
+import { Payment } from './classes/Payment.js';
+// let doc1: HasFormatter
+// let doc2: HasFormatter
+// doc1 = new Invoice('yoda', 'webwork', 100)
+// doc2 = new Payment('anakin', 'devops', 200)
+// let docs: HasFormatter[] = []
+// docs.push(doc1)
+// docs.push(doc2)
+// docs.forEach(doc=>console.log(doc.format()))
+// interfaces with objects
+// interface IsPerson {
+//   name: string
+//   age: number
+//   speak(a: string): void
+//   spend(n: number): number
+// }
+// const me: IsPerson = {
+//   name: 'sid',
+//   age: 25,
+//   speak(text: string): void {
+//     console.log(text)
+//   },
+//   spend(amount: number): number {
+//     return amount
+//   }
+// }
+// const greetPerson = (person: IsPerson): void => console.log('hello', person.name)
+// greetPerson(me)
 // instantiate the class OR create objects of the class
-const invoice1 = new Invoice('mario', 'work on mario website', 250);
-const invoice2 = new Invoice('luigi', 'work on luigi website', 300);
-// invoice1.client = 'sid' cannot be accessed as it is readonly now
-let invoices = [];
-invoices.push(invoice1);
-invoices.push(invoice2);
-// console.log(invoices);
-invoices.forEach(inv => console.log(inv.client, inv.amount, inv.format()));
+// const invoice1 = new Invoice('mario', 'work on mario website', 250)
+// const invoice2 = new Invoice('luigi', 'work on luigi website', 300)
+// // invoice1.client = 'sid' cannot be accessed as it is readonly now
+// let invoices: Invoice[] = []
+// invoices.push(invoice1)
+// invoices.push(invoice2)
+// // console.log(invoices);
+// invoices.forEach(inv=>console.log(inv.client, inv.amount, inv.format()))
 // form
 const form = document.querySelector('.new-item-form');
 // inputs
@@ -29,8 +45,12 @@ const details = document.querySelector('#details');
 const amount = document.querySelector('#amount');
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log(type.value);
-    console.log(tofrom.value);
-    console.log(details.value);
-    console.log(amount.valueAsNumber);
+    let doc;
+    if (type.value === 'invoice') {
+        doc = new Invoice(tofrom.value, details.value, amount.valueAsNumber);
+    }
+    else {
+        doc = new Payment(tofrom.value, details.value, amount.valueAsNumber);
+    }
+    console.log(doc);
 });
