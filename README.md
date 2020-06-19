@@ -641,3 +641,115 @@ form.addEventListener('submit', (e: Event)=> {
 ```
 
 > NOTE: By default, a number value is converted to string by javascript. To keep it as a number, we use `valueAsNumber` here.
+
+## Classes
+
+Classes in typescript are very similar to classes in javascript.
+
+Let's declare a class for `Invoice` with a constructor to initialize the values to the class properties, along with a `format()` method to display some text on the console:
+
+```ts
+class Invoice {
+  client: string
+  details: string
+  amount: number
+
+  constructor(c: string, d: string, a: number){
+    this.client = c
+    this.details = d
+    this.amount = a
+  }
+
+  format() {
+    return `${this.client} owes $${amount} for ${details}`
+  }
+}
+```
+
+Let us now instantiate the class, or to say create objects for the class:
+
+```ts
+cosnt inv1 = new Invoice('mario', 'work on mario website', 250)
+cosnt inv2 = new Invoice('luigi', 'work on luigi website', 300)
+
+console.log(inv1, inv2)
+```
+
+We get two invoice objects here.
+
+The cool thing about using classes for objects is that we can maybe create an array and only allow `Invoice` objects in the array. Here's how we'd do it:
+
+```ts
+const invoices: Invoice[] = []
+invoices.push(inv1)
+invoices.push(inv2)
+
+console.log(invoices)
+```
+
+This will give us an array of objects, what are of type `Invoice`.
+
+Currently, all of the class properties are public. This means we can change their value by accessing them directly:
+
+```ts
+inv1.client = 'sid'
+```
+
+The values change only for the particular instance/object of that class. Since we wouldn't want anyone to change the values of the class properties via the class instances, we can use access modifiers to limit this behavior.
+
+### Access Modifiers: Public, Private & Readonly
+
+All classes are public by default. The following two snippets of code are the same:
+
+**Without access modifiers:**
+
+```ts
+class Invoice {
+  client: string
+  details: string
+  amount: number
+}
+```
+
+**With access modifiers:**
+_[do not need to explicitly say `public`]_
+
+```ts
+class Invoice {
+  public client: string
+  public details: string
+  public amount: number
+}
+```
+
+Access modifiers are used to define how a user can access the different properties of a class.
+
+Consider the following class properties:
+
+```ts
+class Invoice {
+  readonly client: string
+  private details: string
+  public amount: number
+}
+```
+
+- We can access `amount` property inside as well as outside the `Invoice` class.
+- We can access `details` property only inside the class `Invoice`.
+- We can access the `readonly` property inside as well as outside the class, but we cannot change the value of that property, both _inside and outside of the class_.
+
+### Shorthand when using access modifiers for class properties
+
+We can define all of the properties of the class inside the parenthesis `()` of the constructor and assign values as well.
+
+**This only works if we are using access modifiers with our class properties.**
+
+```ts
+class Invoice {
+  constructor(
+    readonly client: string,
+    private details: string,
+    public amount: number
+  ){}
+}
+```
