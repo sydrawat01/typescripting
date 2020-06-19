@@ -557,3 +557,87 @@ logDet = (player: person) =>{
 ```
 
 ## The DOM and Typecasting
+
+We can use the same methods that are present in vanilla JS with typescript as well, but with a few restrictions.
+
+Let's consider the following example:
+
+```ts
+const anchor = document.querySelector(a)
+
+console.log(anchor)
+console.log(anchor.href) // will point to an error
+```
+
+We can notice the first thing here, that logging `anchor.href` gives us an error saying that the `a` or anchor tag might be empty! We know that our anchor tag is not empty, but the typescript file does not since it does not directly connect with the `index.html` file.
+
+There are two ways to overcome this issue:
+
+```ts
+// 1. basic if() check
+if(anchor) console.log(anchor)
+
+// 2. using the `!` operand at the end of querySekector()
+const anchor = document.querySelector('a')!
+```
+
+The first method is fairly simple. The second method, where we use the `!` operand, is to signify that we, as developers, know that the anchor tag is not empty, and hence we add the `!` excalamation operand to signify the same. The error is now gone!
+
+**Typescript for DOM interactions automatically contains special types for every DOM element.**
+
+If you hover over the `anchor` variable, you can see the type as `HTMLAnchorElement`, which is shown as:
+
+```ts
+const anchor: HTMLAnchorElement
+```
+
+This means typescript knows all of the different properties and methods on that element type. This enables the intellisense in our editor to list all of these methods and properties for our HTML element in typescript.
+
+Let's look at another example:
+
+```ts
+// grab an HTML form element
+
+// 1. using the element type
+const form1 = document.querySelector('form')! // has type : HTMLFormElement
+
+// 2. Using the class defined on the form
+const form2 = document.querySelector('.new-item-class')! // has type : Element
+```
+
+So, why is there a difference in type of element when we select the same form with different properties; one with the element name, and the other with the class defined on the form?
+
+This is because when we grab an element with the element name, typescript knows what kind of element it is: an anchor tag, a form tag, etc. But when we use the `class` or `id` to grab an HTML DOM element, typescript does not know what kind of HTML element we have just queried! Hence the difference in the type!
+
+A `class` or `id` can be applied to any different element in the HTML page. So typescript only knows that this will be some kind of an element, but does not know specifically what kind of element it is. To combat this, we can use something called `type casting`, to say what kind of element this is going to be, for the better understanding of typescript.
+
+```ts
+const form2 = document.querySelector('.new-item-class') as HTMLFormElement
+```
+
+Now when we hover over `form`, it shows us the type as `HTMLFormElement` instead of just `Element`.
+
+### Event Listners and `valueAsNumber`
+
+Its fairly simple to use event listners in typescript, since it is exactly the same as javascript!
+
+```ts
+// form
+const form = document.querySelector('.new-item-form') as HTMLFormElement
+
+// inputs
+const type = document.querySelector('#type') as HTMLSelectElement
+const tofrom = document.querySelector('#tofrom') as HTMLInputElement
+const details = document.querySelector('#details') as HTMLInputElement
+const amount = document.querySelector('#amount') as HTMLInputElement
+
+form.addEventListener('submit', (e: Event)=> {
+  e.preventDefault();
+  console.log(type.value)
+  console.log(tofrom.value)
+  console.log(details.value)
+  console.log(amount.valueAsNumber)
+})
+```
+
+> NOTE: By default, a number value is converted to string by javascript. To keep it as a number, we use `valueAsNumber` here.

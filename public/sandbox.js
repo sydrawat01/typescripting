@@ -87,3 +87,54 @@ player = {
     age: 'yoshi'
 };
 console.log(player);
+// Functions Basics
+var greet = function () {
+    console.log('Hello World!');
+};
+// greet = 'Hello World!'; will result in an error
+// explicit type function declaration
+var sayHello;
+sayHello = function () {
+    console.log('Hello Again!');
+};
+var add = function (a, b, c) {
+    if (c === void 0) { c = 10; }
+    // const add = (a: number, b: number, c?: number|string): void => {
+    console.log(a + b);
+    console.log(c); // undefined
+};
+add(5, 10);
+var minus = function (a, b) {
+    return a + b;
+};
+var result = minus(10, 7);
+var logDetails = function (uid, item) {
+    console.log(item + " has a uid of " + uid);
+};
+var greetA = function (user) {
+    console.log(user.name + " says hello!");
+};
+var greetB = function (user) {
+    console.log(user.name + " says hello too!");
+};
+// Function Signatures
+//example 1
+var greet1;
+greet1 = function (name, greeting) {
+    console.log(name + " says " + greeting);
+};
+//example 2
+var calc;
+calc = function (num1, num2, action) {
+    if (action === 'add') {
+        return num1 + num2;
+    }
+    else {
+        return -1;
+    }
+};
+//example 3
+var logDet;
+logDet = function (player) {
+    console.log(player.name + " is " + player.age + " years old");
+};
