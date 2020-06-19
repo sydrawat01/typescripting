@@ -866,3 +866,31 @@ export class Invoice implements HasFormatter {
 ```
 
 Let's create another class that implements this `HasFormatter` interface.
+
+```ts
+export interface HasFormatter {
+  format(): string
+}
+```
+
+Next, in our `app.ts`, we can use this interface like so:
+
+```ts
+import { Invoice } from './classes/Invoice.js'
+import { Payment } from './classes/Payment.js'
+import { HasFormatter } from './interfaces/HasFormatter.js'
+
+let doc1: HasFormatter
+let doc2: HasFormatter
+
+doc1 = new Invoice('yoda', 'webwork', 100)
+doc2 = new Payment('anakin', 'devops', 200)
+
+let docs: HasFormatter[] = []
+docs.push(doc1)
+docs.push(doc2)
+
+docs.forEach(doc=>console.log(doc.format()))
+```
+
+## Rendering an HTML template
