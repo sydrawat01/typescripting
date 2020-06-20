@@ -137,3 +137,10 @@ let logDet;
 logDet = (player) => {
     console.log(`${player.name} is ${player.age} years old`);
 };
+// Generics
+const addUID = (obj) => {
+    let uid = Math.floor(Math.random() * 100);
+    return Object.assign(Object.assign({}, obj), { uid });
+};
+let doc1 = addUID({ name: 'yoshi', age: 30 });
+console.log(doc1.name, doc1.age, doc1.uid);

@@ -893,4 +893,195 @@ docs.push(doc2)
 docs.forEach(doc=>console.log(doc.format()))
 ```
 
-## Rendering an HTML template
+## Generics
+
+Generics allow us to write reusable blocks of code, which can be used with different types.
+
+_Example:_
+
+```ts
+const addUID = (obj: object) => {
+  let uid = Math.floor(Math.random()*100)
+  return {...obj, uid}
+}
+
+let doc1 = addUID({name: 'yoshi', age: 30})
+
+console.log(doc1)
+```
+
+This looks like it works just fine, but there is one problem here. When we try to access the `name` or the `age` property on `doc1`, we are unable to do that, and we get an error on doing
+
+```ts
+console.log(doc1.name)
+```
+
+This is because when we declare the object in the `addUID` function, we are not declaring what are the properties of this object; and it doesn't know what properties of the object we are returning from the function as well, since we are destructuring it.
+
+We can comabt this by using a `generic`. We can do this by placing `<T>` in front of the function parameter parenthesis. We can use any character other than `T` here, but in most standard code, we use `T`.
+
+```ts
+const addUID = <T>(obj: T) => {
+  let uid = Math.floor(Math.random()*100)
+  return {...obj, uid}
+}
+
+let doc1 = addUID({name: 'yoshi', age: 30})
+
+console.log(doc1.name, doc1.age, doc1.uid)
+```
+
+Here, we do not specify what is the type of `obj`, we just capture the type of `T` when we call the function `addUID`. We no longer explicitly say that `obj` is an `object` type.
+
+But `T` here does not explicitly mean we are using an `object` type. We can do something like:
+
+```ts
+let doc2 = addUID('hello')
+```
+
+This will not give an error. To overcome this drawback, we need to specify that `T` should `extend` an `object` type:
+
+```ts
+const addUID = <T extends object>(obj: T) => {
+  let uid = Math.floor(Math.random()*100)
+  return {...obj, uid}
+}
+```
+
+We can also `extend` a specific type of object here:
+
+```ts
+const addUID = <T extends {name: string}>(obj: T) => {
+  let uid = Math.floor(Math.random()*100)
+  return {...obj, uid}
+}
+
+let doc2 = addUID(name: 'hello')
+```
+
+Now this will allow objects which have the name property.
+
+### Using generics with interfaces
+
+Consider the following example:
+
+```ts
+interface Resource {
+  uid: number
+  resourceName: string
+  data: '???'
+}
+```
+
+Here, we want the `data` to not be strict about the type, we want it's type to be `generic`. Here's how we do it using generics:
+
+```ts
+interface Resource<T> {
+  uid: number
+  resourceName: string
+  data: T
+}
+```
+
+This helps us in declaring different data types for the `data` property of the interface:
+
+```ts
+const doc3: Resource<object> = {
+  uid: 123,
+  resourceName: 'person',
+  data: {name: 'siddharth'}
+}
+const doc4: Resource<string> = {
+  uid: 123,
+  resourceName: 'person',
+  data: 'siddharth'
+}
+const doc5: Resource<string[]> = {
+  uid: 456,
+  resourceName: 'persons',
+  data: ['sid', 'mario', 'luigi']
+}
+```
+
+## Enums
+
+Enums are a special type in typescript, which allow us to store a set of constants or keywords and associate them with a numeric value.
+
+```ts
+interface Resource<T> {
+  uid: number
+  resourceType: number
+  data: T
+}
+```
+
+Consider the above example where we asscociate a specific thing with the `resourceType`, which is a `number`. We could have `1` associated with `book`, `2` with `author`, and so on. This seems okay with a small dataset, but with really large datasets, we would have to keep looking back at the mappings for these numeric values for their `string` counterpart values. This seems tedious right? This is where `enums` come into play.
+
+Here's how we create an enum for the above example `resourceType`.
+
+```ts
+enum ResourceType {BOOK, AUTHOR, FILM, DIRECTOR, PERSON}
+```
+
+Each of the above keywords in the enum have index numbers which start from 0, and are assigned to `resourceType`.
+
+So now in our interface, we use this `enum` as the type for `resourceType`:
+
+```ts
+interface Resource<T> {
+  uid: number
+  resourceType: ResourceType
+  data: T
+}
+```
+
+And now we can access the enum as such:
+
+```ts
+const doc3: Resource<object> = {
+  uid: 123,
+  resourceName: ResourceType.AUTHOR,
+  data: {name: 'siddharth'}
+}
+const doc4: Resource<string> = {
+  uid: 123,
+  resourceName: ResourceType.BOOK,
+  data: 'siddharth'
+}
+const doc5: Resource<string[]> = {
+  uid: 456,
+  resourceName: ResourceType.FILM,
+  data: ['sid', 'mario', 'luigi']
+}
+```
+
+## Tuples
+
+These are a little bit like arrays, and we use arrays to define them. We can also use the same array methods with tuples.
+
+The one major difference between tuples and arrays is the types of data in each position in a tuple is fixed once it has been initialised.
+
+Let's have a look at the arrays:
+
+```ts
+let arr = ['ryu', 35, true]
+arr[0] = true
+arr[1] = 'mario'
+arr = [30, false, 'luigi']
+```
+
+Notice that we can change the values and their types in an array. Now have a look at a tuple:
+
+```ts
+let tup: [string, number, boolean] = ['mario', 25, true]
+```
+
+Since we have defined that index 0 should have a `string` type, index 1 `number` and index 2 `boolean`, we cannot have a value with type different from the ones defined.
+
+But, we can change the values to the same fixed type:
+
+```ts
+tup[0] = 'luigi'
+tup[1] = 30
+tup[2] = false
+```

@@ -189,3 +189,52 @@ type person = {name: string, age: number}
 logDet = (player: person) =>{
   console.log(`${player.name} is ${player.age} years old`)
 }
+
+// Generics
+
+const addUID = <T extends {name: string}>(obj: T) => {
+  let uid = Math.floor(Math.random()*100)
+  return {...obj, uid}
+}
+
+let doc1 = addUID({name: 'yoshi', age: 30})
+// let doc2 = addUID('hello'); will be an error since we extended the 'object' type in 'T'
+
+console.log(doc1.name, doc1.age, doc1.uid)
+
+// enum
+enum ResourceType {BOOK, AUTHOR, FILM, DIRECTOR, PERSON}
+// generics with interfaces
+
+interface Resource<T> {
+  uid: number
+  resourceName: ResourceType
+  data: T
+}
+
+const doc3: Resource<object> = {
+  uid: 123,
+  resourceName: ResourceType.AUTHOR,
+  data: {name: 'siddharth'}
+}
+const doc4: Resource<string> = {
+  uid: 123,
+  resourceName: ResourceType.BOOK,
+  data: 'siddharth'
+}
+const doc5: Resource<string[]> = {
+  uid: 456,
+  resourceName: ResourceType.FILM,
+  data: ['sid', 'mario', 'luigi']
+}
+
+console.log(doc3, doc4, doc5)
+
+// tuples
+
+let arr = ['ryu', 35, true]
+arr[0] = true
+arr[1] = 'mario'
+arr = [30, false, 'luigi']
+
+let tup: [string, number, boolean] = ['mario', 25, true]
